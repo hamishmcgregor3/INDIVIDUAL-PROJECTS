@@ -1,0 +1,20 @@
+<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAei9beohg6m5Z8LtbuImZ15cRzHapsptI",
+    authDomain: "my-ap-2985d.firebaseapp.com",
+    databaseURL: "https://my-ap-2985d.firebaseio.com",
+    projectId: "my-ap-2985d",
+    storageBucket: "my-ap-2985d.appspot.com",
+    messagingSenderId: "633158175213"
+  };
+  firebase.initializeApp(config);
+</script>
+
+Errors/Things to do: 
+
+- Sign up input boxes showing up twice???
+https://stackoverflow.com/questions/48846289/why-is-my-react-component-is-rendering-twice
+- Need Sign out button to direct up to the sign in page
+- Perhaps no need for the landing lets just go the sign in page
