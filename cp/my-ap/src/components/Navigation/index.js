@@ -57,6 +57,9 @@ const NavigationAuth = () => (
     <li>
       <Link to={ROUTES.HOME}>Home</Link>
     </li>
+    <li>
+      <Link to={ROUTES.ADD_LISTING}>Add Listing</Link>
+    </li>
     {/* <li>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li> */}

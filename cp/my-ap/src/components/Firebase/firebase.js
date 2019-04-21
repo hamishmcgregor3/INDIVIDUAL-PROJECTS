@@ -14,7 +14,8 @@ import 'firebase/database';
 const config = {
   apiKey: "AIzaSyAei9beohg6m5Z8LtbuImZ15cRzHapsptI",
   authDomain: "my-ap-2985d.firebaseapp.com",
-  databaseURL: "https://my-ap-2985d.firebaseio.com",
+  //databaseURL: "https://my-ap-2985d.firebaseio.com",
+  databaseURL: "https://my-ap-2985d-cp.firebaseio.com/",
   projectId: "my-ap-2985d",
   storageBucket: "my-ap-2985d.appspot.com",
   messagingSenderId: "633158175213"
