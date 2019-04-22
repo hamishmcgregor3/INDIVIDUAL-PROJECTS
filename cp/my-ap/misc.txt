@@ -38,3 +38,10 @@ ref.once('value', function(snapshot) {
     // ...
   });
 });
+
+TO ASK THE TA'S: 
+
+- Getting only user listings 
+- Changing the value of the SOLD boolean for the following two: 
+  - Changing the colour of a cell/product box
+  - Removing a button if the item has been sold

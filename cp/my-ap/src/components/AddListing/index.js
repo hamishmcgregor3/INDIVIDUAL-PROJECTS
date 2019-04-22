@@ -39,12 +39,12 @@ class AddItemFormBase extends Component {
 
     onSubmit = event => {
 
-        const { firstName, email, itemName, itemDescription, price, date } = this.state;
+        const { firstName, email, itemName, itemDescription, price, sold, date } = this.state;
 
         //date = this.props.firebase.db.ServerValue.TIMESTAMP
 
         return this.props.firebase.db.ref('Listing').push({
-            firstName, email, itemName, itemDescription, price, date,
+            firstName, email, itemName, itemDescription, price, sold, date,
         });
 
     }
@@ -131,5 +131,3 @@ const AddItemForm = compose(
 export default AddListing;
 
 export { AddItemForm };
-
-// -------- End of all the shit --------

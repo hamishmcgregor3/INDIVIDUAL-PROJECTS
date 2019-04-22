@@ -2,9 +2,10 @@ import { FirebaseContext } from '../Firebase';
 import React, { Component } from 'react';
 //import * as ROUTES from '../../constants/routes';
 //import { Link, withRouter } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
+// import { withRouter } from 'react-router-dom';
+// import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
+//import { defaultProps } from 'recompose';
 //import ReactDOM from "react-dom";
 
 
@@ -14,7 +15,7 @@ const Landing = () => (
     <FirebaseContext.Consumer>
       {firebase => <Display firebase={firebase} />}
     </FirebaseContext.Consumer>
-    <Display />
+    {/* <Display /> */}
   </div>
 );
 
@@ -26,6 +27,7 @@ class DisplayBase extends Component {
     this.state = {
       loading: false,
       listings: [],
+      bgColor: 'white',  
     };
   }
 
@@ -55,6 +57,25 @@ class DisplayBase extends Component {
     this.props.firebase.db.ref('Listing').off();
   }
 
+  testClick = () => {
+    
+    //testClick = (listing) => {
+    //search this.state.listings for the right one
+    //when you find your listing, change it's bought property to true
+   
+    // newListings = listings.map((thisListing) => {
+    //   if(thisListing.name == listing.name) {
+    //     thisListing.bought = true;
+    //   }
+    // });
+    // this.setState({listings: newListings});
+   
+    this.setState({
+      bgColor: 'red'
+    })
+  
+  }
+
   render() {
 
     const { listings, loading } = this.state;
@@ -64,7 +85,7 @@ class DisplayBase extends Component {
       <div>
         {loading && <div>Loading ...</div>}
         {listings ? (
-          <ItemList listings={listings} />
+          <ItemList onClick={this.testClick} listings={listings} state = {this.state}/>
         ) : (
             <div>There are no listings ...</div>
           )}
@@ -76,47 +97,43 @@ class DisplayBase extends Component {
 
 }
 
-const ItemList = ({ listings }) => (
-  <ul>
-    {listings.map(listing => (
-      <ItemDisplay key={listing.itemName} listing={listing} />
-    ))}
-  </ul>
-);
+const ItemList = (props) => {
+  return (
+    <ul>
+      {props.listings.map(listing => (
+        <ItemDisplay testClick={props.onClick} key={listing.itemName} listing={listing} state = {props.state}/>
+        ))}
+    </ul>
+  )
+};
 
-const ItemDisplay = ({ listing }) => (
+const ItemDisplay = (props) => (
 
   //NEED TO FIGURE OUT HOW TO CHANGE THE COLOUR OF THE SIGNOUT BUTTON AND ALSO TO CHANGE
   //THE COLOUR OF THE BOX IF AN ITEM HAS BEEN SOLD! 
 
-  <li>
-    <strong> Item For Sale: {listing.itemName} </strong>
+  <li style={{backgroundColor:props.state.bgColor}} >
+    {/* <li style={props.listing.bought ? 'red' : 'white'}> */}
+    <strong> Item For Sale: {props.listing.itemName} </strong>
     <br></br>
     <br></br>
-    Item Description: {listing.itemDescription}
+    Item Description: {props.listing.itemDescription}
     <br></br>
     <br></br>
-    Price: $ {listing.price}
+    Price: $ {props.listing.price}
     <br></br>
     <br></br>
-    Date Listed: {listing.date} 
+    Date Listed: {props.listing.date} 
     <br></br>
     <br></br>
     <button type="submit"> Message Seller </button>
     <br></br>
     <br></br>
-    <button type="submit"> Buy </button>
+    <button onClick={props.testClick} type="submit" > Buy </button>
   </li>
+
 );
 
 const Display = withFirebase(DisplayBase);
 
-// export default compose(
-//   withEmailVerification,
-//   withAuthorization(condition),
-// )(HomePage);
-
 export default Landing;
-
-// const rootElement = document.getElementById("root");
-// ReactDOM.render(<DisplayBase />, rootElement);

@@ -12,7 +12,7 @@ const SignUpPage = () => (
     <FirebaseContext.Consumer>
       {firebase => <SignUpForm firebase={firebase} />}
     </FirebaseContext.Consumer>
-    <SignUpForm />
+    {/* <SignUpForm /> */}
   </div>
 );
 
