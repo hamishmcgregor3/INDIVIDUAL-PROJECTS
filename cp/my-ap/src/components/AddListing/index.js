@@ -1,16 +1,18 @@
-//import React from 'react';
 import { FirebaseContext } from '../Firebase';
 import React, { Component } from 'react';
-import * as ROUTES from '../../constants/routes';
+//import * as ROUTES from '../../constants/routes';
+//import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
+import { withFirebase } from '../Firebase';
 
 const AddListing = () => (
     <div>
         <h1>Add An Item To Sell:</h1>
         <FirebaseContext.Consumer>
             {firebase => <AddItemForm firebase={firebase} />}
-            {/* firebase.db.ref('Listing').push( */}
-            <AddItemForm />
         </FirebaseContext.Consumer>
+        <AddItemForm />
     </div>
 );
 
@@ -36,7 +38,15 @@ class AddItemFormBase extends Component {
     };
 
     onSubmit = event => {
+
         const { firstName, email, itemName, itemDescription, price, date } = this.state;
+
+        //date = this.props.firebase.db.ServerValue.TIMESTAMP
+
+        return this.props.firebase.db.ref('Listing').push({
+            firstName, email, itemName, itemDescription, price, date,
+        });
+
     }
 
     onChange = event => {
@@ -92,18 +102,18 @@ class AddItemFormBase extends Component {
                     value={price}
                     onChange={this.onChange}
                     type="int"
-                    placeholder="price"
+                    placeholder="Price"
                 />
                 <input
                     name="date"
                     value={date}
                     onChange={this.onChange}
                     type="date"
-                    placeholder="date"
+                    placeholder="Date"
                 />
 
                 <button type="submit">
-                    Add Item
+                    Sell Item
                 </button>
 
                 {error && <p>{error.message}</p>}
@@ -113,16 +123,13 @@ class AddItemFormBase extends Component {
     }
 }
 
-// const SignUpForm = compose(
-//     withRouter,
-//     withFirebase,
-//   )(SignUpFormBase);
-  
-//   export default SignUpPage;
-  
-//   export { SignUpForm, SignUpLink };
-
-// -------- End of all the shit --------
+const AddItemForm = compose(
+    withRouter,
+    withFirebase,
+)(AddItemFormBase);
 
 export default AddListing;
 
+export { AddItemForm };
+
+// -------- End of all the shit --------
