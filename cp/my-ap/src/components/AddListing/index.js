@@ -113,7 +113,7 @@ class AddItemFormBase extends Component {
                 />
 
                 <button type="submit">
-                    Sell Item
+                    List Item For Sale
                 </button>
 
                 {error && <p>{error.message}</p>}
