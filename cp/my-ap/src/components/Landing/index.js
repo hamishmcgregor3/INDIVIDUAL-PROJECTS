@@ -8,7 +8,6 @@ import { withFirebase } from '../Firebase';
 //import { defaultProps } from 'recompose';
 //import ReactDOM from "react-dom";
 
-
 const Landing = () => (
   <div>
     <h1> Current Listings: </h1>
@@ -27,11 +26,11 @@ class DisplayBase extends Component {
     this.state = {
       loading: false,
       listings: [],
-      bgColor: 'white',  
+      //bgColor: 'white',  
     };
   }
 
-  componentDidMount() {
+  componentDidMount() {                                           
     this.setState({ loading: true });
     this.props.firebase.db.ref('Listing').on('value', snapshot => {
 
@@ -57,8 +56,8 @@ class DisplayBase extends Component {
     this.props.firebase.db.ref('Listing').off();
   }
 
-  testClick = () => {
-    
+  testClick = (props) => {
+
     //testClick = (listing) => {
     //search this.state.listings for the right one
     //when you find your listing, change it's bought property to true
@@ -70,9 +69,19 @@ class DisplayBase extends Component {
     // });
     // this.setState({listings: newListings});
    
-    this.setState({
-      bgColor: 'red'
-    })
+    // this.setState({
+    //   bgColor: 'red'
+    // })
+
+    //NEED TO UPDATE FIREBASE
+
+    //this.props.listing.bgColor = 'red'; 
+
+    //HARD CODING THE COLOR OF A LISTING BELOW
+
+    return this.props.firebase.db.ref('Listing/LdAzfrlHylpLKuLGlEM').set({
+      bgColor : 'red'
+    });
   
   }
 
@@ -112,7 +121,8 @@ const ItemDisplay = (props) => (
   //NEED TO FIGURE OUT HOW TO CHANGE THE COLOUR OF THE SIGNOUT BUTTON AND ALSO TO CHANGE
   //THE COLOUR OF THE BOX IF AN ITEM HAS BEEN SOLD! 
 
-  <li style={{backgroundColor:props.state.bgColor}} >
+  //<li style={{backgroundColor:props.state.bgColor}} >
+  <li style={{backgroundColor:props.listing.bgColor}} >
     {/* <li style={props.listing.bought ? 'red' : 'white'}> */}
     <strong> Item For Sale: {props.listing.itemName} </strong>
     <br></br>
@@ -126,7 +136,15 @@ const ItemDisplay = (props) => (
     Date Listed: {props.listing.date} 
     <br></br>
     <br></br>
+    Sold or Not: {props.listing.bgColor} 
+    <br></br>
+    <br></br>
     <button type="submit"> Message Seller </button>
+    {/* <Link to={ROUTES.SEND_MESSAGES}>
+      <button type="submit">
+        Message Seller
+     </button>
+    </Link> */}
     <br></br>
     <br></br>
     <button onClick={props.testClick} type="submit" > Buy </button>

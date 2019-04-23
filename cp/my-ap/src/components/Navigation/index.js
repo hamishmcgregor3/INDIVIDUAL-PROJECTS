@@ -27,7 +27,7 @@ const NavigationAuth = () => (
       <Link to={ROUTES.ADD_LISTING}>Add Listing</Link>
     </li>
     <li>
-      <Link to={ROUTES.USER_LISTINGS}>View My Listings</Link>
+      <Link to={ROUTES.VIEW_MY_LISTINGS}>View My Listings</Link>
     </li>
     <li>
       <SignOutButton />

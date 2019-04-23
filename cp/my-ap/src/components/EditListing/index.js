@@ -1,19 +1,18 @@
 import { FirebaseContext } from '../Firebase';
 import React, { Component } from 'react';
-//import * as ROUTES from '../../constants/routes';
-//import { Link, withRouter } from 'react-router-dom';
+import * as ROUTES from '../../constants/routes';
+import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { withFirebase } from '../Firebase';
-import firebase from 'firebase'; 
+import firebase from 'firebase';
 
-const AddListing = () => (
+const EditListing = () => (
     <div>
-        <h1>Add An Item To Sell:</h1>
+        <h1>Edit Listing:</h1>
         <FirebaseContext.Consumer>
-            {firebase => <AddItemForm firebase={firebase} />}
+            {firebase => <EditListingForm firebase={firebase} />}
         </FirebaseContext.Consumer>
-        {/* <AddItemForm /> */}
     </div>
 );
 
@@ -29,7 +28,7 @@ const INITIAL_STATE = {
     bgColor: 'white',
 };
 
-class AddItemFormBase extends Component {
+class EditListingFormBase extends Component {
     constructor(props) {
         super(props);
         this.state = { ...INITIAL_STATE };
@@ -39,40 +38,46 @@ class AddItemFormBase extends Component {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    // onSubmit = event => {
-
-    //     const { firstName, email, itemName, itemDescription, price, sold, date, bgColor } = this.state;
-
-    //     //date = this.props.firebase.db.ServerValue.TIMESTAMP
-
-    //     return this.props.firebase.db.ref('Listing').push({
-    //         firstName, email, itemName, itemDescription, price, sold, date, bgColor,
-    //     });
-
-    // }
-
     onSubmit = event => {
-       
-        const { firstName, email, itemName, itemDescription, price, sold, date, bgColor, } = this.state;
+        // set id to be name + date
+        this.setState({ loading: true });
+        this.props.firebase.db.ref('Listing').on('value', snapshot => {
 
+            const listingObject = snapshot.val();
+            var uid;
+            if (listingObject) {
+                const itemList = Object.keys(listingObject).map(key => ({
+                    ...listingObject[key],
+                    uid: key,
+                }));
+                this.setState({
+                    listings: itemList,
+                    loading: false,
+                });
+            } else {
+                this.setState({ listings: null, loading: false });
+            }
+
+        });
+
+        const { firstName, email, itemName, itemDescription, price, sold, date, bgColor, } = this.state;
         var user = firebase.auth().currentUser;
         var userId;
 
-        this.props.firebase.db.ref('Listing').push({
-            firstName, email, itemName, itemDescription, price, sold, date, bgColor,
-        })
-
         if (user != null) {
             userId = user.uid;
-            console.log(userId);
         }
-        
-        return (
-            this.props.firebase.db.ref(`users/${userId}/listings`).push({
-                firstName, email, itemName, itemDescription, price, sold, date, bgColor,
-            })
-        )
-    
+
+        // var uid = this.state.uid;
+
+        //return this.props.firebase.db.ref(`users/${userId}/listings/${uid}`).set({
+        return this.props.firebase.db.ref(`users/${userId}/Listing/-LdAzitSw46rKnkXzuO5`).set({
+            firstName, email, itemName, itemDescription, price, sold, date, bgColor,
+        })
+        //return this.props.firebase.db('Listing').update({
+
+        //});
+
     }
 
     onChange = event => {
@@ -138,10 +143,11 @@ class AddItemFormBase extends Component {
                     type="date"
                     placeholder="Date"
                 />
-
-                <button type="submit">
-                    List Item For Sale
-                </button>
+                <Link to={ROUTES.VIEW_MY_LISTINGS}>
+                    <button type="submit">
+                        Edit This Listing
+                  </button>
+                </Link>
 
                 {error && <p>{error.message}</p>}
 
@@ -150,11 +156,11 @@ class AddItemFormBase extends Component {
     }
 }
 
-const AddItemForm = compose(
+const EditListingForm = compose(
     withRouter,
     withFirebase,
-)(AddItemFormBase);
+)(EditListingFormBase);
 
-export default AddListing;
+export default EditListing;
 
-export { AddItemForm };
+export { EditListingForm };
