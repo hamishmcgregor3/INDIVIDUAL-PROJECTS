@@ -8,7 +8,7 @@ import firebase from 'firebase';
 
 const ViewMyListings = () => (
     <div>
-        <h1> My Listings: </h1>
+        <h1> Edit or Remove Listings: </h1>
         <FirebaseContext.Consumer>
             {firebase => <Display firebase={firebase} />}
         </FirebaseContext.Consumer>
@@ -25,7 +25,7 @@ class DisplayBase extends Component {
             listings: [],
         };
     }
-
+    
     componentDidMount() {
 
         this.setState({ loading: true });
@@ -36,7 +36,8 @@ class DisplayBase extends Component {
             userId = user.uid;
         }
 
-        this.props.firebase.db.ref(`users/${userId}/listings`).on('value', snapshot => {
+        //this.props.firebase.db.ref(`users/${userId}/listings`).on('value', snap => {
+        this.props.firebase.db.ref('Listing').on('value', snapshot => {
 
             const listingObject = snapshot.val();
 
@@ -54,17 +55,21 @@ class DisplayBase extends Component {
             }
 
         });
+
     }
 
     componentWillUnmount() {
         this.props.firebase.db.ref('Listing').off();
     }
 
-    testClick = () => {
-        this.setState({
-            bgColor: 'red'
-        })
-    }
+   
+  testClick = (props) => {
+    
+    var listingID = props.target.value;
+  
+    return this.props.firebase.db.ref(`Listing/${listingID}`).remove();
+  
+  }
 
     render() {
 
@@ -114,15 +119,16 @@ const ItemDisplay = (props) => (
         <br></br>
         <Link to={{
             pathname: ROUTES.EDIT_LISTING,
-            state: { uid: props.listing.uid }
-        }}>
+            state: {uid: props.listing.uid}
+            }}>
             <button type="submit">
                 Edit This Listing
             </button>
         </Link>
         <br></br>
         <br></br>
-        <button onClick={props.testClick} type="submit" > Delete This Listing </button>
+        {/* <button onClick={props.testClick} type="submit" > Delete This Listing </button> */}
+        <button onClick={props.testClick} value = {props.listing.uid} type="submit"> Delete This Listing </button>
     </li>
 
 );

@@ -25,15 +25,14 @@ const INITIAL_STATE = {
     sold: false,
     date: '',
     error: null,
-    bgColor: 'white',
 };
 
 class EditListingFormBase extends Component {
     constructor(props) {
         super(props);
         this.state = { ...INITIAL_STATE };
+        console.log(props);
         console.log(this.props);
-        //console.log(this.props.location.state.uid);
     }
 
     onChange = event => {
@@ -70,18 +69,18 @@ class EditListingFormBase extends Component {
         if (user != null) {
             userId = user.uid;
         }
-       
-        // return this.props.firebase.db.ref(`users/${userId}/listings/${listingID}`).set({
-        //     firstName, email, itemName, itemDescription, price, sold, date, bgColor,
-        // })
 
-        // return this.props.firebase.db.ref(`users/${userId}/listings/${listingID}`).set({
-        //     firstName, email, itemName, itemDescription, price, sold, date, bgColor,
-        // })
+        // var uid = this.state.uid;
+
+        //return this.props.firebase.db.ref(`users/${userId}/listings/${uid}`).set({
 
         return this.props.firebase.db.ref(`Listing/${listingID}`).update({
             firstName, email, itemName, itemDescription, price, sold, date, bgColor,
         })
+
+        //return this.props.firebase.db('Listing').update({
+
+        //});
 
     }
 
