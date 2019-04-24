@@ -25,7 +25,7 @@ const INITIAL_STATE = {
     sold: false,
     date: '',
     error: null,
-    bgColor: '',
+    bgColor: 'green',
 };
 
 class EditListingFormBase extends Component {
