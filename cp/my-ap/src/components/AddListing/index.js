@@ -26,7 +26,7 @@ const INITIAL_STATE = {
     sold: false,
     date: '',
     error: null,
-    bgColor: 'white',
+    bgColor: 'green',
 };
 
 class AddItemFormBase extends Component {

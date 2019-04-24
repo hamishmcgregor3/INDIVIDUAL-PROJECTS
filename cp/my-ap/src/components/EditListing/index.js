@@ -32,6 +32,8 @@ class EditListingFormBase extends Component {
     constructor(props) {
         super(props);
         this.state = { ...INITIAL_STATE };
+        console.log(this.props);
+        //console.log(this.props.location.state.uid);
     }
 
     onChange = event => {
@@ -39,7 +41,6 @@ class EditListingFormBase extends Component {
     };
 
     onSubmit = event => {
-        // set id to be name + date
         this.setState({ loading: true });
         this.props.firebase.db.ref('Listing').on('value', snapshot => {
 
@@ -61,22 +62,26 @@ class EditListingFormBase extends Component {
         });
 
         const { firstName, email, itemName, itemDescription, price, sold, date, bgColor, } = this.state;
+       
         var user = firebase.auth().currentUser;
         var userId;
+        var listingID = this.props.location.state.uid; 
 
         if (user != null) {
             userId = user.uid;
         }
+       
+        // return this.props.firebase.db.ref(`users/${userId}/listings/${listingID}`).set({
+        //     firstName, email, itemName, itemDescription, price, sold, date, bgColor,
+        // })
 
-        // var uid = this.state.uid;
+        // return this.props.firebase.db.ref(`users/${userId}/listings/${listingID}`).set({
+        //     firstName, email, itemName, itemDescription, price, sold, date, bgColor,
+        // })
 
-        //return this.props.firebase.db.ref(`users/${userId}/listings/${uid}`).set({
-        return this.props.firebase.db.ref(`users/${userId}/Listing/-LdAzitSw46rKnkXzuO5`).set({
+        return this.props.firebase.db.ref(`Listing/${listingID}`).update({
             firstName, email, itemName, itemDescription, price, sold, date, bgColor,
         })
-        //return this.props.firebase.db('Listing').update({
-
-        //});
 
     }
 
@@ -143,11 +148,11 @@ class EditListingFormBase extends Component {
                     type="date"
                     placeholder="Date"
                 />
-                <Link to={ROUTES.VIEW_MY_LISTINGS}>
+                {/* <Link to={ROUTES.VIEW_MY_LISTINGS}> */}
                     <button type="submit">
                         Edit This Listing
                   </button>
-                </Link>
+                {/* </Link> */}
 
                 {error && <p>{error.message}</p>}
 

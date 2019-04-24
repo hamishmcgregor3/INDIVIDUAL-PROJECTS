@@ -25,7 +25,7 @@ class DisplayBase extends Component {
             listings: [],
         };
     }
-    
+
     componentDidMount() {
 
         this.setState({ loading: true });
@@ -112,10 +112,13 @@ const ItemDisplay = (props) => (
         Date Listed: {props.listing.date}
         <br></br>
         <br></br>
-        <Link to={ROUTES.EDIT_LISTING}>
+        <Link to={{
+            pathname: ROUTES.EDIT_LISTING,
+            state: { uid: props.listing.uid }
+        }}>
             <button type="submit">
                 Edit This Listing
-     </button>
+            </button>
         </Link>
         <br></br>
         <br></br>
