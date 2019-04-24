@@ -1,0 +1,5 @@
+https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial/
+
+https://www.robinwieruch.de/react-firebase-realtime-database/
+
+Used the following two tutorials to help us implement React and Firebase!
