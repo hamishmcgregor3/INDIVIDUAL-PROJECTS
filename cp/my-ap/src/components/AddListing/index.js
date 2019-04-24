@@ -27,6 +27,7 @@ const INITIAL_STATE = {
     date: '',
     error: null,
     bgColor: 'green',
+    messages: '',
 };
 
 class AddItemFormBase extends Component {
@@ -53,13 +54,13 @@ class AddItemFormBase extends Component {
 
     onSubmit = event => {
        
-        const { firstName, email, itemName, itemDescription, price, sold, date, bgColor, } = this.state;
+        const { firstName, email, itemName, itemDescription, price, sold, date, bgColor, messages} = this.state;
 
         var user = firebase.auth().currentUser;
         var userId;
 
         this.props.firebase.db.ref('Listing').push({
-            firstName, email, itemName, itemDescription, price, sold, date, bgColor,
+            firstName, email, itemName, itemDescription, price, sold, date, bgColor, messages,
         })
 
         if (user != null) {
@@ -69,7 +70,7 @@ class AddItemFormBase extends Component {
         
         return (
             this.props.firebase.db.ref(`users/${userId}/listings`).push({
-                firstName, email, itemName, itemDescription, price, sold, date, bgColor,
+                firstName, email, itemName, itemDescription, price, sold, date, bgColor, messages,
             })
         )
     
@@ -91,6 +92,7 @@ class AddItemFormBase extends Component {
             date,
             error,
             bgColor,
+            messages,
         } = this.state;
 
         return (

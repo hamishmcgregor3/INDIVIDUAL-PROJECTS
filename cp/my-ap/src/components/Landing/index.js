@@ -30,6 +30,7 @@ class DisplayBase extends Component {
 
   componentDidMount() {                                           
     this.setState({ loading: true });
+    //this.props.firebase.db.ref('Listing').orderByChild('price').on('value', snapshot => {
     this.props.firebase.db.ref('Listing').on('value', snapshot => {
 
       const listingObject = snapshot.val();
@@ -55,10 +56,8 @@ class DisplayBase extends Component {
   }
 
   testClick = (props) => {
-    
-    var listingID = props.target.value;
 
-    console.log(listingID); 
+    var listingID = props.target.value;
 
     return this.props.firebase.db.ref(`Listing/${listingID}`).update({
       bgColor : 'red', 
@@ -98,7 +97,9 @@ const ItemList = (props) => {
   )
 };
 
-const ItemDisplay = (props) => { return (
+const ItemDisplay = (props) => {
+  return (
+
   //NEED TO FIGURE OUT HOW TO CHANGE THE COLOUR OF THE SIGNOUT BUTTON AND ALSO TO CHANGE
   //THE COLOUR OF THE BOX IF AN ITEM HAS BEEN SOLD! 
 

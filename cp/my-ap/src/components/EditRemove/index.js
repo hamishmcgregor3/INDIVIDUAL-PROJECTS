@@ -6,7 +6,7 @@ import { withFirebase } from '../Firebase';
 import firebase from 'firebase';
 
 
-const ViewMyListings = () => (
+const EditRemove = () => (
     <div>
         <h1> Edit or Remove Listings: </h1>
         <FirebaseContext.Consumer>
@@ -135,4 +135,4 @@ const ItemDisplay = (props) => (
 
 const Display = withFirebase(DisplayBase);
 
-export default ViewMyListings;
+export default EditRemove;
